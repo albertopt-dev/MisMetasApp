@@ -5,7 +5,7 @@ Una aplicación moderna con diseño futurista oscuro y neón para gestionar tus 
 ## ✨ Características Principales
 
 ### 🎨 Diseño y Tema
-- **Tema oscuro futurista** con efectos neón (#00f0ff cyan, #ff00ff magenta, #ffea00 amarillo)
+- **Tema oscuro futurista** con efectos neón 
 - Animaciones fluidas y efectos de brillo
 - Gradientes personalizados por objetivo
 - Interfaz completamente en **español**
@@ -61,51 +61,6 @@ Una aplicación moderna con diseño futurista oscuro y neón para gestionar tus 
 - **Expo Linear Gradient** - Efectos visuales
 - **AsyncStorage 2.2.0** - Almacenamiento local
 
-## 📦 Instalación
-
-### Requisitos previos
-- Node.js (v16 o superior)
-- npm o yarn
-- Expo CLI
-- Cuenta de Firebase
-
-### Pasos de instalación
-
-1. **Clonar el repositorio:**
-```bash
-git clone <url-del-repo>
-cd proyecto-objetivos
-```
-
-2. **Instalar dependencias:**
-```bash
-npm install
-```
-
-3. **Configurar Firebase:**
-   - Crea un proyecto en [Firebase Console](https://console.firebase.google.com/)
-   - Activa **Authentication** (Email/Password)
-   - Activa **Firestore Database**
-   - Copia las credenciales de configuración
-   - Actualiza `src/config/firebaseConfig.ts` con tus credenciales
-
-4. **Configuración crítica (metro.config.js):**
-   El proyecto incluye un archivo `metro.config.js` NECESARIO para que funcione en Expo Go:
-   ```javascript
-   config.resolver.unstable_enablePackageExports = false;
-   ```
-   **No eliminar este archivo** - resuelve incompatibilidad Firebase + Metro
-
-5. **Iniciar el proyecto:**
-```bash
-npx expo start
-```
-
-6. **Ejecutar en tu dispositivo:**
-   - **Móvil**: Descarga "Expo Go" y escanea el QR
-   - **Web**: Presiona `w` en la terminal
-   - **Android emulator**: Presiona `a`
-   - **iOS simulator**: Presiona `i`
 
 ## 📱 Cómo usar la App
 
@@ -161,12 +116,12 @@ Para objetivos semanales o mensuales:
 ## 🎨 Personalización de Colores
 
 Colores disponibles para objetivos:
-- 🔵 Cyan (#00f0ff)
-- 🟣 Magenta (#ff00ff)  
-- 🟡 Amarillo (#ffea00)
-- 🟢 Verde (#00ff88)
-- 🔴 Rojo (#ff3366)
-- 🟠 Naranja (#ff6b35)
+- 🔵 Cyan 
+- 🟣 Magenta  
+- 🟡 Amarillo 
+- 🟢 Verde 
+- 🔴 Rojo 
+- 🟠 Naranja 
 
 ## 🏗️ Estructura del Proyecto
 
@@ -199,12 +154,6 @@ proyecto-objetivos/
 
 ## 🐛 Solución de Problemas
 
-### Error: "Component auth has not been registered yet"
-**Solución**: Asegúrate de que existe el archivo `metro.config.js` con:
-```javascript
-config.resolver.unstable_enablePackageExports = false;
-```
-
 ### La app no se sincroniza
 - Verifica tu configuración de Firebase
 - Comprueba las reglas de Firestore
@@ -218,22 +167,6 @@ config.resolver.unstable_enablePackageExports = false;
 - Comprueba que tienes objetivos creados para esas fechas
 - Verifica que los objetivos tienen el campo `date` correcto
 
-## 🚀 Compilar para Producción
-
-### Android (APK)
-```bash
-eas build --platform android
-```
-
-### iOS (IPA)
-```bash
-eas build --platform ios
-```
-
-### Web
-```bash
-npx expo export:web
-```
 
 ## 🔄 Futuras Mejoras
 
