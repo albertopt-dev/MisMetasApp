@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, TouchableOpacity, Animated, Modal } from 'react-native';
 import { Text, IconButton } from 'react-native-paper';
 import { LinearGradient } from 'expo-linear-gradient';
+import { endOfWeek, endOfMonth, isSameDay } from 'date-fns';
 import { colors, spacing, borderRadius } from '../theme/colors';
 import { Goal } from '../types';
 
@@ -36,6 +37,33 @@ export default function GoalCard({ goal, onToggle, onDelete, onEdit, onToggleSub
     : goal.subGoals || [];
 
   const hasFilteredSubGoals = filteredSubGoals.length > 0;
+
+  // Determinar si estamos en el último día del periodo
+  const isLastDayOfPeriod = () => {
+    if (!selectedDate) return false;
+    
+    const currentDate = new Date(selectedDate + 'T00:00:00');
+    const goalDate = new Date(goal.date + 'T00:00:00');
+
+    if (goal.period === 'week') {
+      const weekEnd = endOfWeek(goalDate, { weekStartsOn: 1 });
+      return isSameDay(currentDate, weekEnd);
+    } else if (goal.period === 'month') {
+      const monthEnd = endOfMonth(goalDate);
+      return isSameDay(currentDate, monthEnd);
+    }
+    
+    return false;
+  };
+
+  // Determinar si el checkbox del objetivo principal debe estar deshabilitado
+  const isMainCheckboxDisabled = () => {
+    if (!hasSubGoals) return false; // Sin sub-objetivos, siempre habilitado
+    if (allSubGoalsCompleted) return false; // Todos completados, siempre habilitado
+    
+    // Con sub-objetivos no completados: solo habilitar el último día del periodo
+    return !isLastDayOfPeriod();
+  };
 
   // Animación de entrada
   useEffect(() => {
@@ -187,16 +215,16 @@ export default function GoalCard({ goal, onToggle, onDelete, onEdit, onToggleSub
             <View style={styles.content}>
               {/* Checkbox personalizado */}
               <TouchableOpacity
-                onPress={hasSubGoals && !allSubGoalsCompleted ? undefined : onToggle}
+                onPress={isMainCheckboxDisabled() ? undefined : onToggle}
                 style={styles.checkboxContainer}
-                disabled={hasSubGoals && !allSubGoalsCompleted}
+                disabled={isMainCheckboxDisabled()}
               >
                 <View
                   style={[
                     styles.checkbox,
                     { borderColor: goal.color },
                     goal.completed && { backgroundColor: goal.color },
-                    hasSubGoals && !allSubGoalsCompleted && styles.checkboxDisabled,
+                    isMainCheckboxDisabled() && styles.checkboxDisabled,
                   ]}
                 >
                   {goal.completed && (
