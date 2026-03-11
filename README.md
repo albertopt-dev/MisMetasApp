@@ -1,6 +1,12 @@
 # 🎯 MisMetas - Aplicación de Gestión de Objetivos
 
-Una aplicación moderna con diseño futurista oscuro y neón para gestionar tus objetivos diarios, semanales, mensuales y anuales. Totalmente en español con sistema de sub-objetivos para un seguimiento detallado de tus metas.
+Una aplicación **multiplataforma** moderna con diseño futurista oscuro y neón para gestionar tus objetivos diarios, semanales, mensuales y anuales. Totalmente en español con sistema de sub-objetivos para un seguimiento detallado de tus metas.
+
+## 🌐 Plataformas Disponibles
+
+- **📱 App Nativa**: React Native (iOS/Android) - Listo para App Store y Play Store
+- **🌐 PWA**: Aplicación web progresiva instalable - Funcional en cualquier navegador
+- **☁️ Base de datos compartida**: Mismo Firebase Firestore para todas las plataformas
 
 ## ✨ Características Principales
 
@@ -45,15 +51,26 @@ Una aplicación moderna con diseño futurista oscuro y neón para gestionar tus 
 
 ### ☁️ Sincronización en la Nube
 - Backend completo con **Firebase Firestore**
-- Sincronización en tiempo real
-- Datos seguros por usuario
-- Sin necesidad de índices compuestos (queries optimizadas)
-
-## 🛠️ Tecnologías
-
+### 📱 App Nativa (React Native)
 - **React Native** + **Expo SDK 54.0.33**
 - **TypeScript 5.3.0** - Tipado estático completo
 - **Firebase 10.14.1** (Authentication + Firestore)
+- **React Navigation** - Navegación entre pantallas
+- **React Native Paper** - Componentes Material Design
+- **React Native Calendars 1.1306.0** - Calendario con localización española
+- **date-fns 3.6.0** - Manipulación de fechas en español
+- **Expo Linear Gradient** - Efectos visuales
+- **AsyncStorage 2.2.0** - Almacenamiento local
+
+### 🌐 PWA (Aplicación Web)
+- **Vite 5.0** + **React 18.2** - Build rápido y modern
+- **TypeScript 5.3.0** - Tipado estático completo
+- **Material-UI 5.15** - Componentes web modernos
+- **Framer Motion 11.0** - Animaciones fluidas en web
+- **React Calendar 5.0** - Calendario web interactivo
+- **Firebase 10.14.1** - Mismo backend que la app nativa
+- **React Router 6.22** - Navegación web
+- **Vite PWA Plugin** - Service Worker y manifest automáticoore)
 - **React Navigation** - Navegación entre pantallas
 - **React Native Paper** - Componentes Material Design
 - **React Native Calendars 1.1306.0** - Calendario con localización española
@@ -116,30 +133,115 @@ Para objetivos semanales o mensuales:
 ## 🎨 Personalización de Colores
 
 Colores disponibles para objetivos:
-- 🔵 Cyan 
-- 🟣 Magenta  
-- 🟡 Amarillo 
-- 🟢 Verde 
-- 🔴 Rojo 
-- 🟠 Naranja 
+│
+├── 📱 REACT NATIVE (App Nativa iOS/Android)
+│   ├── assets/               # Iconos e imágenes nativas
+│   ├── src/
+│   │   ├── components/       # Componentes React Native
+│   │   │   └── GoalCard.tsx
+│   │   ├── config/
+│   │   │   └── firebaseConfig.ts
+│   │   ├── contexts/
+│   │   │   └── AuthContext.tsx
+│   │   ├── screens/
+│   │   │   ├── HomeScreen.tsx
+│   │   │   ├── AddGoalScreen.tsx
+│   │   │   ├── EditGoalScreen.tsx
+│   │   │   ├── LoginScreen.tsx
+│   │   │   ├── WelcomeScreen.tsx
+│   │   │   └── StatsScreen.tsx
+│   │   ├── services/
+│   │   │   ├── goalService.ts
+│   │   │   └── authService.ts
+│   │   ├── theme/
+│   │   │   └── colors.ts
+│   │   └── types/
+│   │       └── index.ts
+│   ├── App.tsx
+│   ├── app.json              # Configuración Expo
+│   ├── eas.json              # Build para App/Play Store
+│   ├── metro.config.js       # ⚠️ CRÍTICO - No eliminar
+│   └── package.json          # Dependencias nativas
+│
+├── 🌐 PWA (Aplicación Web)
+│   └── web/
+│       ├── public/
+│       │   ├── manifest.json      # PWA manifest
+│       │   ├── icon-192.svg       # Icono PWA pequeño
+│       │   └── icon-512.svg       # Icono PWA grande
+│       ├── src/
+│       │   ├── components/
+│       │   │   └── GoalCard.tsx   # Versión web
+│       │   ├── contexts/
+│       │   │   └── AuthContext.tsx
+│  🎯 Diferencias entre versiones
 
-## 🏗️ Estructura del Proyecto
+| Característica | App Nativa | PWA |
+|----------------|------------|-----|
+| **Plataforma** | iOS/Android | Cualquier navegador |
+| **Instalación** | App Store/Play Store | Directo desde navegador |
+| **Tamaño** | ~40-60 MB | ~2-3 MB |
+| **Rendimiento** | Nativo (100%) | Web (95%) |
+| **Animaciones** | React Native Animated | Framer Motion |
+| **Componentes UI** | React Native Paper | Material-UI |
+| **Calendario** | react-native-calendars | react-calendar |
+| **Offline** | AsyncStorage | Service Worker |
+| **Notificaciones** | Nativas | Web Push API |
+| **Base de datos** |  Firebase (compartido) |  Firebase (compartido) |
 
+## 🔄 Futuras Mejoras
+
+- [x] **PWA instalable** 
+- [ ] Estadísticas detalladas de progreso (en desarrollo - StatsScreen)
+- [ ] Implementar cálculo de racha (streak) en getUserStats
+- [ ] Notificaciones push para recordatorios
+- [ ] Compartir objetivos con otros usuarios
+- [ ] Temas personalizables (claro/oscuro)
+- [ ] Exportar objetivos a PDF
+- [ ] Modo offline con sincronización diferida mejorada
+- [ ] Conversión iconos SVG → PNG para PWA
+
+## 🐛 Problemas Conocidos
+
+### PWA
+- Iconos usando SVG temporalmente (funciona pero PNG es mejor para iOS)
+- Streak calculation en StatsScreen retorna 0 (pendiente implementación)
+- Service Worker puede requerir recarga manual en algunos navegadores
+
+### App Nativa
+- Build iOS bloqueado hasta aceptar términos en Apple Developer account
+
+## 📝 Licencia
+
+MIT License - Código abierto y libre para uso personal o comercial.
+
+## 👨‍💻 Desarrollador
+
+**Alberto** - [GitHub: albertopt-dev](https://github.com/albertopt-dev/MisMetasApp)
+
+Creado con ❤️ usando:
+- 📱 React Native + Expo (App Nativa)
+- 🌐 React + Vite (PWA)
+- ☁️ Firebase (Backend compartido)
+
+---
+
+**Versión actual**: 1.0.0  
+**Última actualización**: Marzo 2026  
+**Plataformas**: iOS, Android, Web (PWA) Documentación PWA
+│       ├── INSTALL.md             # Guía instalación
+│       └── STATUS.md              # Estado del desarrollo
+│
+├── .gitignore
+└── README.md                      # Este archivo
 ```
-proyecto-objetivos/
-├── assets/               # Iconos e imágenes
-├── src/
-│   ├── components/       # Componentes reutilizables
-│   │   └── GoalCard.tsx  # Tarjeta de objetivo con sub-objetivos
-│   ├── config/
-│   │   └── firebaseConfig.ts
-│   ├── contexts/
-│   │   └── AuthContext.tsx
-│   ├── screens/
-│   │   ├── HomeScreen.tsx       # Pantalla principal
-│   │   ├── AddGoalScreen.tsx    # Crear objetivo
-│   │   ├── EditGoalScreen.tsx   # Editar objetivo
-│   │   ├── LoginScreen.tsx      # Autenticación
+
+
+#### Instalación en iPhone (PWA)
+1. Abrir la PWA en Safari
+2. Tocar el botón "Compartir" (cuadrado con flecha)
+3. Seleccionar "Añadir a pantalla de inicio"
+4. La app se instala como nativa (sin App Store) │   ├── LoginScreen.tsx      # Autenticación
 │   │   └── StatsScreen.tsx      # Estadísticas
 │   ├── services/
 │   │   └── goalService.ts       # Lógica Firestore
@@ -167,15 +269,6 @@ proyecto-objetivos/
 - Comprueba que tienes objetivos creados para esas fechas
 - Verifica que los objetivos tienen el campo `date` correcto
 
-
-## 🔄 Futuras Mejoras
-
-- [ ] Estadísticas detalladas de progreso
-- [ ] Notificaciones push para recordatorios
-- [ ] Compartir objetivos con otros usuarios
-- [ ] Temas personalizables
-- [ ] Exportar objetivos a PDF
-- [ ] Modo offline con sincronización diferida
 
 ## 📝 Licencia
 

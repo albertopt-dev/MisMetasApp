@@ -1,0 +1,30 @@
+{
+  "name": "Mis Metas - Gestor de Objetivos",
+  "short_name": "Mis Metas",
+  "description": "Gestiona tus objetivos diarios, semanales, mensuales y anuales",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0a0a0f",
+  "theme_color": "#06b6d4",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-512.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["productivity", "lifestyle"],
+  "screenshots": [],
+  "share_target": {
+    "action": "/",
+    "method": "GET"
+  }
+}
