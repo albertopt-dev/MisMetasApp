@@ -19,20 +19,6 @@ Una aplicación **multiplataforma** moderna con diseño futurista oscuro y neón
 - **Notificaciones de prueba** funcionando - Pruébalo desde la app
 - **Backend listo**: Código de Cloud Functions implementado en `functions/`
 
-### 🚀 Backend para notificaciones automáticas
-**✅ IMPLEMENTADO** - Solo falta desplegarlo (15 minutos):
-
-📖 **[➡️ Ver functions/INSTALACION.md](functions/INSTALACION.md)** - Pasos exactos para desplegar
-
-**Características del backend**:
-- ⭐ **Firebase Cloud Functions** (serverless)
-- 🌍 Funciona en **AMBAS plataformas** (nativo + web) automáticamente
-- 💻 **NO necesitas PC encendido** - Se ejecuta en servidores de Google 24/7
-- ⏰ Se ejecuta cada hora automáticamente
-- 💰 Costo: ~$0.01/mes (prácticamente gratis)
-
----
-
 ## ✨ Características Principales
 
 ### 🎨 Diseño y Tema
@@ -182,12 +168,6 @@ Para objetivos semanales o mensuales:
 
 **⚠️ Estado actual**: Las notificaciones de prueba funcionan perfectamente. El backend está implementado en `functions/`.
 
-**Para activar notificaciones automáticas**:
-1. 🚀 **Desplegar el backend** (15 minutos) - Ver [functions/INSTALACION.md](functions/INSTALACION.md)
-2. ✅ El backend se ejecutará automáticamente cada hora (serverless, NO necesitas PC encendido)
-3. 📱 Enviará notificaciones a **AMBAS plataformas** (nativo + web)
-4. 💰 Costo: ~$0.01/mes (prácticamente gratis)
-
 
 ## 🔄 Mejoras y Roadmap
 
@@ -205,13 +185,6 @@ Para objetivos semanales o mensuales:
   - [x] Funciona para AMBAS plataformas automáticamente
   - [x] Serverless (Cloud Functions)
 
-### 🚀 Listo para desplegar (solo falta ejecutar)
-- [ ] **Desplegar backend a Firebase** (15 minutos):
-  - ✅ Código completo en `functions/`
-  - ✅ Instrucciones paso a paso en `functions/INSTALACION.md`
-  - ✅ Firebase ya configurado (.firebaserc, firebase.json)
-  - 📋 Solo falta: `firebase deploy --only functions`
-- [ ] Implementar cálculo de racha (streak) en getUserStats
 
 ### 📅 Planificado
 - [ ] Compartir objetivos con otros usuarios
@@ -231,43 +204,6 @@ Para objetivos semanales o mensuales:
 
 ## 📚 Documentación Adicional
 
-### 🚀 Deploy del Backend (¡EMPIEZA AQUÍ!)
-- **[functions/INSTALACION.md](functions/INSTALACION.md)** - ⭐ **Pasos exactos para desplegar** (15 min)
-  - ✅ Todo el código ya está listo en `functions/`
-  - 📋 Checklist paso a paso
-  - 🔧 Comandos exactos a ejecutar
-  - 🐛 Troubleshooting
-  - 🎯 Configuración de zona horaria
-
-### 📖 Guías Generales
-- **[SIGUIENTES_PASOS.md](SIGUIENTES_PASOS.md)** - Visión general del sistema de notificaciones
-  - Estado actual del sistema
-  - Por qué se necesita el backend
-  - Comparativa de opciones
-  - FAQ
-
-### 🔔 Notificaciones Push - Documentación Técnica
-- **[NOTIFICACIONES.md](NOTIFICACIONES.md)** - Guía completa del sistema de notificaciones
-  - 🛠️ Configuración nativa (Expo + permisos iOS/Android)
-  - 🌐 Configuración web (FCM + VAPID + Service Worker)
-  - 🧪 Testing y troubleshooting
-  - 📊 Envío de notificaciones remotas (Expo API + FCM Admin)
-  - 🔐 Seguridad y variables de entorno
-
-### 💻 Código del Backend
-- **[functions/src/sendDailyReminders.ts](functions/src/sendDailyReminders.ts)** - Cloud Function principal
-  - ✅ Listo para desplegar
-  - 📱 Envía a app nativa (Expo Push API)
-  - 🌐 Envía a PWA (Firebase Cloud Messaging)
-  - 200+ líneas con comentarios detallados
-  - Lógica de filtrado por hora y timezone
-
-- **[backend-example/README.md](backend-example/README.md)** - Documentación alternativa
-  - Explicación detallada del funcionamiento
-  - Opciones de deployment alternativas
-  - Ejemplos de código adicionales
-  - Envío a Expo Push API y FCM
-  - Logging y manejo de errores
 
 ## 📝 Licencia
 
@@ -299,18 +235,7 @@ Creado con ❤️ usando:
 1. Abrir la PWA en Safari
 2. Tocar el botón "Compartir" (cuadrado con flecha)
 3. Seleccionar "Añadir a pantalla de inicio"
-4. La app se instala como nativa (sin App Store) │   ├── LoginScreen.tsx      # Autenticación
-│   │   └── StatsScreen.tsx      # Estadísticas
-│   ├── services/
-│   │   └── goalService.ts       # Lógica Firestore
-│   ├── theme/
-│   │   └── colors.ts            # Tema oscuro futurista
-│   └── types/
-│       └── index.ts             # Tipos TypeScript
-├── metro.config.js       # ⚠️ CRÍTICO - No eliminar
-├── package.json
-└── README.md
-```
+4. La app se instala como nativa (sin App Store)
 
 ## 🐛 Solución de Problemas
 
@@ -327,16 +252,3 @@ Creado con ❤️ usando:
 - Comprueba que tienes objetivos creados para esas fechas
 - Verifica que los objetivos tienen el campo `date` correcto
 
-
-## 📝 Licencia
-
-MIT
-
-## 👨‍💻 Desarrollador
-
-Creado con ❤️ usando React Native + Firebase
-
----
-
-**Versión actual**: 1.0.0  
-**Última actualización**: Marzo 2026

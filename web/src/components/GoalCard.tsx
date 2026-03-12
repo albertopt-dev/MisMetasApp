@@ -9,7 +9,6 @@ import {
   Dialog,
   DialogContent,
   DialogTitle,
-  IconButton as MuiIconButton,
 } from '@mui/material';
 
 interface GoalCardProps {

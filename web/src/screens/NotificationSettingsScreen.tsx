@@ -12,7 +12,7 @@ import { motion } from 'framer-motion';
 import { useNotifications } from '../contexts/NotificationContext';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import NotificationsIcon from '@mui/icons-material/Notifications';
-import NotificationsOffIcon from '@mui/icons-material/NotificationsOff';
+// import NotificationsOffIcon from '@mui/icons-material/NotificationsOff';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import ErrorIcon from '@mui/icons-material/Error';
@@ -110,23 +110,23 @@ export default function NotificationSettingsScreen() {
    */
   const renderPermissionStatus = () => {
     let statusText = '';
-    let statusColor = '#9ca3af';
+    // let statusColor = '#9ca3af'; // No se usa actualmente
     let StatusIcon = HelpIcon;
 
     switch (permissionStatus) {
       case 'granted':
         statusText = 'Permisos otorgados';
-        statusColor = '#10b981';
+        // statusColor = '#10b981';
         StatusIcon = CheckCircleIcon;
         break;
       case 'denied':
         statusText = 'Permisos denegados';
-        statusColor = '#ef4444';
+        // statusColor = '#ef4444';
         StatusIcon = ErrorIcon;
         break;
       case 'default':
         statusText = 'Permisos no solicitados';
-        statusColor = '#f59e0b';
+        // statusColor = '#f59e0b';
         StatusIcon = HelpIcon;
         break;
     }

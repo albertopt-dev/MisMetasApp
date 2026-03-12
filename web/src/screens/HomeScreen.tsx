@@ -21,7 +21,7 @@ export default function HomeScreen() {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [allGoals, setAllGoals] = useState<Goal[]>([]);
   const [loading, setLoading] = useState(true);
-  const [refreshing, setRefreshing] = useState(false);
+  // const [refreshing, setRefreshing] = useState(false);
   const [menuAnchor, setMenuAnchor] = useState<null | HTMLElement>(null);
 
   // Carga inicial solo una vez
@@ -61,11 +61,11 @@ export default function HomeScreen() {
     }
   };
 
-  const onRefresh = async () => {
-    setRefreshing(true);
-    await loadGoals();
-    setRefreshing(false);
-  };
+  // const onRefresh = async () => {
+  //   setRefreshing(true);
+  //   await loadGoals();
+  //   setRefreshing(false);
+  // };
 
   const getGoalsForDate = (period: PeriodType): Goal[] => {
     const dateStr = format(selectedDate, 'yyyy-MM-dd');
@@ -128,7 +128,7 @@ export default function HomeScreen() {
     return { completed, total, percentage };
   };
 
-  const dayProgress = calculateProgress(dayGoals);
+  // const dayProgress = calculateProgress(dayGoals);
   const weekProgress = calculateProgress(weekGoals, true);
   const monthProgress = calculateProgress(monthGoals, true);
   const yearProgress = calculateProgress(yearGoals);

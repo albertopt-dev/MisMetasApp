@@ -10,7 +10,7 @@ import {
   getDoc,
   query,
   where,
-  orderBy,
+  // orderBy,
   Timestamp,
   onSnapshot,
 } from 'firebase/firestore';
