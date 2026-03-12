@@ -1,4 +1,4 @@
-# ✅ CHECKLIST DE DOMINIO DE MisMetas
+# ✅ CHECKLIST DE DOMINIO DE ObjetivosApp
 
 Usa esta lista para verificar que conoces todas las características y sabes usar la app al máximo.
 
@@ -74,7 +74,7 @@ Usa esta lista para verificar que conoces todas las características y sabes usa
 - [ ] He usado los 4 tipos de periodo (Día/Semana/Mes/Año)
 - [ ] He completado un objetivo semanal con todos sus sub-objetivos
 - [ ] He completado un objetivo mensual con todos sus sub-objetivos
-- [ ] Uso MisMetas a diario
+- [ ] Uso ObjetivosApp a diario
 - [ ] Tengo objetivos activos de diferentes periodos simultáneamente
 
 ## 💡 Mejores Prácticas
@@ -93,7 +93,7 @@ Usa esta lista para verificar que conoces todas las características y sabes usa
 - [ ] **Constancia**: He marcado sub-objetivos 5 días seguidos
 - [ ] **Completador**: He completado 10 objetivos en total
 - [ ] **Organizador**: Tengo objetivos activos en los 4 periodos
-- [ ] **Maestro**: Llevo 1 mes usando MisMetas consistentemente
+- [ ] **Maestro**: Llevo 1 mes usando ObjetivosApp consistentemente
 
 ---
 
@@ -104,7 +104,7 @@ Cuenta cuántos checkboxes has marcado:
 - **0-15**: 🌱 Principiante - Sigue practicando
 - **16-30**: 🌿 Aprendiz - Vas por buen camino
 - **31-45**: 🌳 Competente - Dominas la app
-- **46-55**: 🏆 Experto - ¡Eres un maestro de MisMetas!
+- **46-55**: 🏆 Experto - ¡Eres un maestro de ObjetivosApp!
 
 ---
 

@@ -204,18 +204,18 @@ export default function HomeScreen({ navigation }: any) {
   }, [fabScaleAnim]);
 
   useEffect(() => {
-    contentFadeAnim.setValue(0.9);
-    contentTranslateAnim.setValue(8);
+    contentFadeAnim.setValue(0.97);
+    contentTranslateAnim.setValue(3);
 
     Animated.parallel([
       Animated.timing(contentFadeAnim, {
         toValue: 1,
-        duration: 220,
+        duration: 140,
         useNativeDriver: true,
       }),
       Animated.timing(contentTranslateAnim, {
         toValue: 0,
-        duration: 220,
+        duration: 140,
         useNativeDriver: true,
       }),
     ]).start();
@@ -422,6 +422,15 @@ export default function HomeScreen({ navigation }: any) {
               leadingIcon="chart-line"
               titleStyle={{ color: colors.primary, fontWeight: 'bold' }}
               style={styles.menuItemStats}
+            />
+            <Menu.Item
+              onPress={() => {
+                setMenuVisible(false);
+                navigation.navigate('NotificationSettings');
+              }}
+              title="Notificaciones"
+              leadingIcon="bell"
+              titleStyle={{ color: colors.accent, fontWeight: 'bold' }}
             />
             <Divider style={{ backgroundColor: colors.surfaceLight }} />
             <Menu.Item

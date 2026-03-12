@@ -1,4 +1,4 @@
-# 🎯 Mis Metas - PWA (Progressive Web App)
+# 🎯 ObjetivosApp - PWA (Progressive Web App)
 
 Versión web de la aplicación de gestión de objetivos, completamente instalable en cualquier dispositivo.
 

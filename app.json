@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "MisMetas",
-    "slug": "mismetas",
+    "name": "ObjetivosApp",
+    "slug": "objetivosapp",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -16,7 +16,7 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.mismetas.app",
+      "bundleIdentifier": "com.objetivosapp.app",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false
       }
@@ -26,11 +26,22 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#6366f1"
       },
-      "package": "com.mismetas.app"
+      "package": "com.objetivosapp.app"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
+    "plugins": [
+      [
+        "expo-notifications",
+        {
+          "icon": "./assets/icon.png",
+          "color": "#6366f1",
+          "sounds": [],
+          "mode": "production"
+        }
+      ]
+    ],
     "extra": {
       "eas": {
         "projectId": "ba2ecfe5-78ad-4678-8b3a-e64877bc6e71"

@@ -63,7 +63,7 @@ export default function WelcomeScreen() {
         animate={{ opacity: 1 }}
         transition={{ duration: 1, delay: 0.25 }}
       >
-        <h1 style={styles.title}>MisMetas</h1>
+        <h1 style={styles.title}>ObjetivosApp</h1>
         <p style={styles.subtitle}>Convierte tus objetivos en logros</p>
       </motion.div>
     </div>

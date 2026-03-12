@@ -1,8 +1,8 @@
-# � MANUAL DE USUARIO - MisMetas
+# 📚 MANUAL DE USUARIO - ObjetivosApp
 
-## 🎯 ¿Qué es MisMetas?
+## 🎯 ¿Qué es ObjetivosApp?
 
-**MisMetas** es tu asistente personal para alcanzar objetivos. Organiza tus metas por día, semana, mes o año, y lleva un seguimiento visual de tu progreso con un calendario interactivo y un sistema de sub-objetivos que te ayuda a dividir grandes metas en pasos manejables.
+**ObjetivosApp** es tu asistente personal para alcanzar objetivos. Organiza tus metas por día, semana, mes o año, y lleva un seguimiento visual de tu progreso con un calendario interactivo y un sistema de sub-objetivos que te ayuda a dividir grandes metas en pasos manejables.
 
 ### ✨ Características Principales
 - 📅 **Calendario visual** con colores por tipo de objetivo
@@ -27,7 +27,7 @@ Al abrir la app por primera vez verás la pantalla de inicio de sesión:
    - **Email**: Tu correo electrónico
    - **Contraseña**: Mínimo 6 caracteres
 3. Toca **"Registrarse"**
-4. ¡Listo! Ya puedes empezar a usar MisMetas
+4. ¡Listo! Ya puedes empezar a usar ObjetivosApp
 
 **Consejo**: Usa un email que consultes regularmente por si necesitas recuperar tu cuenta.
 
@@ -328,7 +328,7 @@ R: Es día/mes/año. Ejemplo: 15/03/2026 = 15 de marzo de 2026.
 
 ### Ejercicio 1: Tu primer objetivo del día
 1. Toca el botón +
-2. Título: "Probar MisMetas"
+2. Título: "Probar ObjetivosApp"
 3. Periodo: Día
 4. Fecha: Hoy
 5. Prioridad: Alta
@@ -338,7 +338,7 @@ R: Es día/mes/año. Ejemplo: 15/03/2026 = 15 de marzo de 2026.
 
 ### Ejercicio 2: Objetivo semanal con sub-objetivos
 1. Toca el botón +
-2. Título: "Aprender a usar MisMetas"
+2. Título: "Aprender a usar ObjetivosApp"
 3. Descripción: "Practicar cada día de la semana"
 4. Toca "Generar automáticamente" en sub-objetivos
 5. Edita el primer sub-objetivo: "Crear mi primer objetivo"
@@ -350,9 +350,9 @@ R: Es día/mes/año. Ejemplo: 15/03/2026 = 15 de marzo de 2026.
 
 ---
 
-## 🌟 FILOSOFÍA DE MisMetas
+## 🌟 FILOSOFÍA DE ObjetivosApp
 
-MisMetas está diseñada con una filosofía clara:
+ObjetivosApp está diseñada con una filosofía clara:
 
 **La constancia vence al talento**
 
@@ -364,7 +364,7 @@ Cada sub-objetivo marcado es una pequeña victoria. Y muchas pequeñas victorias
 
 ## 💪 ¡EMPIEZA AHORA!
 
-Ya tienes todo lo necesario para dominar MisMetas. Recuerda:
+Ya tienes todo lo necesario para dominar ObjetivosApp. Recuerda:
 
 1. 🎯 **Empieza pequeño**: No crees 50 objetivos el primer día
 2. 📅 **Usa el calendario**: Es tu mejor amigo visual

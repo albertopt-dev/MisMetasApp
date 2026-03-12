@@ -169,7 +169,7 @@ export default function LoginScreen() {
                 >
                   🎯
                 </Animated.Text>
-                <Text style={styles.title}>MISMETAS</Text>
+                <Text style={styles.title}>OBJETIVOSAPP</Text>
                 <LinearGradient
                   colors={[colors.primary, colors.secondary]}
                   start={{ x: 0, y: 0 }}

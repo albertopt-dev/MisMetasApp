@@ -1,4 +1,4 @@
-# 🎯 MIS METAS - CONVERSIÓN A PWA
+# 🎯 OBJETIVOSAPP - CONVERSIÓN A PWA
 
 ## ✅ ¿Qué se ha completado?
 

@@ -9,8 +9,8 @@ export default defineConfig({
       registerType: 'autoUpdate',
       includeAssets: ['icon-192.png', 'icon-512.png'],
       manifest: {
-        name: 'Mis Metas',
-        short_name: 'Mis Metas',
+        name: 'ObjetivosApp',
+        short_name: 'ObjetivosApp',
         description: 'Gestiona tus objetivos diarios, semanales, mensuales y anuales',
         theme_color: '#06b6d4',
         background_color: '#0f172a',

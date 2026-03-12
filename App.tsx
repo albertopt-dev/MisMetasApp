@@ -6,6 +6,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { PaperProvider } from 'react-native-paper';
 import { AuthProvider, useAuth } from './src/contexts/AuthContext';
+import { NotificationProvider } from './src/contexts/NotificationContext';
 import { colors } from './src/theme/colors';
 
 // Screens
@@ -14,6 +15,7 @@ import HomeScreen from './src/screens/HomeScreen';
 import AddGoalScreen from './src/screens/AddGoalScreen';
 import EditGoalScreen from './src/screens/EditGoalScreen';
 import StatsScreen from './src/screens/StatsScreen';
+import NotificationSettingsScreen from './src/screens/NotificationSettingsScreen';
 import WelcomeScreen from './src/screens/WelcomeScreen';
 import { View, ActivityIndicator, StyleSheet } from 'react-native';
 
@@ -53,6 +55,7 @@ function AppNavigator() {
             <Stack.Screen name="AddGoal" component={AddGoalScreen} />
             <Stack.Screen name="EditGoal" component={EditGoalScreen} />
             <Stack.Screen name="Stats" component={StatsScreen} />
+            <Stack.Screen name="NotificationSettings" component={NotificationSettingsScreen} />
           </>
         )}
       </Stack.Navigator>
@@ -64,8 +67,10 @@ export default function App() {
   return (
     <PaperProvider>
       <AuthProvider>
-        <StatusBar style="auto" />
-        <AppNavigator />
+        <NotificationProvider>
+          <StatusBar style="auto" />
+          <AppNavigator />
+        </NotificationProvider>
       </AuthProvider>
     </PaperProvider>
   );

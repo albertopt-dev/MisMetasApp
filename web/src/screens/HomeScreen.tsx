@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import { format, startOfWeek, endOfWeek, startOfMonth, endOfMonth, eachDayOfInterval, isSameMonth } from 'date-fns';
@@ -12,8 +12,8 @@ import goalService from '../services/goalService';
 import { Goal, PeriodType } from '../types';
 import { colors, spacing, borderRadius } from '../theme/colors';
 import GoalCard from '../components/GoalCard';
-import { IconButton, Menu, MenuItem, Fab, CircularProgress } from '@mui/material';
-import { Add as AddIcon, Menu as MenuIcon, BarChart, Logout } from '@mui/icons-material';
+import { IconButton, Menu, MenuItem, CircularProgress } from '@mui/material';
+import { Add as AddIcon, Menu as MenuIcon, BarChart, Logout, Notifications } from '@mui/icons-material';
 
 export default function HomeScreen() {
   const { user, signOut } = useAuth();
@@ -24,21 +24,40 @@ export default function HomeScreen() {
   const [refreshing, setRefreshing] = useState(false);
   const [menuAnchor, setMenuAnchor] = useState<null | HTMLElement>(null);
 
+  // Carga inicial solo una vez
   useEffect(() => {
-    loadGoals();
+    const loadInitialGoals = async () => {
+      if (!user) return;
+
+      try {
+        setLoading(true);
+        const allUserGoals = await goalService.getUserGoals(user.uid);
+        setAllGoals(allUserGoals);
+      } catch (error) {
+        console.error('Error al cargar objetivos:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadInitialGoals();
+  }, [user]);
+
+  // Recarga al cambiar de día (sin mostrar pantalla de loading)
+  useEffect(() => {
+    if (user && !loading) {
+      loadGoals();
+    }
   }, [selectedDate]);
 
   const loadGoals = async () => {
     if (!user) return;
 
     try {
-      setLoading(true);
       const allUserGoals = await goalService.getUserGoals(user.uid);
       setAllGoals(allUserGoals);
     } catch (error) {
       console.error('Error al cargar objetivos:', error);
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -282,6 +301,15 @@ export default function HomeScreen() {
           <MenuItem
             onClick={() => {
               setMenuAnchor(null);
+              navigate('/notifications');
+            }}
+            sx={{ color: colors.accent, fontWeight: 'bold' }}
+          >
+            <Notifications sx={{ marginRight: 1 }} /> Notificaciones
+          </MenuItem>
+          <MenuItem
+            onClick={() => {
+              setMenuAnchor(null);
               handleLogout();
             }}
             sx={{ color: colors.error, fontWeight: 'bold' }}
@@ -305,6 +333,7 @@ export default function HomeScreen() {
             locale="es-ES"
             tileContent={tileContent}
             className="custom-calendar"
+            showNeighboringMonth={false}
           />
         </motion.div>
 
@@ -381,7 +410,7 @@ export default function HomeScreen() {
 
         {/* Goals Lists */}
         {dayGoals.length > 0 && (
-          <GoalsList
+            <GoalsList
             title="Objetivos del Día"
             goals={dayGoals}
             selectedDate={format(selectedDate, 'yyyy-MM-dd')}
@@ -389,11 +418,11 @@ export default function HomeScreen() {
             onDelete={handleDeleteGoal}
             onEdit={(goal) => navigate(`/edit-goal/${goal.id}`, { state: { goal } })}
             onToggleSubGoal={handleToggleSubGoal}
-          />
+            />
         )}
 
         {weekGoals.length > 0 && (
-          <GoalsList
+            <GoalsList
             title="Objetivos de la Semana"
             goals={weekGoals}
             selectedDate={format(selectedDate, 'yyyy-MM-dd')}
@@ -401,11 +430,11 @@ export default function HomeScreen() {
             onDelete={handleDeleteGoal}
             onEdit={(goal) => navigate(`/edit-goal/${goal.id}`, { state: { goal } })}
             onToggleSubGoal={handleToggleSubGoal}
-          />
+            />
         )}
 
         {monthGoals.length > 0 && (
-          <GoalsList
+            <GoalsList
             title="Objetivos del Mes"
             goals={monthGoals}
             selectedDate={format(selectedDate, 'yyyy-MM-dd')}
@@ -413,11 +442,11 @@ export default function HomeScreen() {
             onDelete={handleDeleteGoal}
             onEdit={(goal) => navigate(`/edit-goal/${goal.id}`, { state: { goal } })}
             onToggleSubGoal={handleToggleSubGoal}
-          />
+            />
         )}
 
         {yearGoals.length > 0 && (
-          <GoalsList
+            <GoalsList
             title="Objetivos del Año"
             goals={yearGoals}
             selectedDate={format(selectedDate, 'yyyy-MM-dd')}
@@ -425,26 +454,21 @@ export default function HomeScreen() {
             onDelete={handleDeleteGoal}
             onEdit={(goal) => navigate(`/edit-goal/${goal.id}`, { state: { goal } })}
             onToggleSubGoal={handleToggleSubGoal}
-          />
+            />
         )}
 
-        {/* Empty State */}
         {totalCount === 0 && (
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            style={styles.emptyState}
-          >
+            <div style={styles.emptyState}>
             <motion.div
-              animate={{ scale: [1, 1.06, 1] }}
-              transition={{ duration: 2, repeat: Infinity }}
-              style={styles.emptyIcon}
+                animate={{ scale: [1, 1.06, 1] }}
+                transition={{ duration: 2, repeat: Infinity }}
+                style={styles.emptyIcon}
             >
-              🎯
+                🎯
             </motion.div>
             <h3 style={styles.emptyText}>No hay objetivos todavía</h3>
             <p style={styles.emptySubtext}>Toca el botón + para crear tu primer objetivo</p>
-          </motion.div>
+            </div>
         )}
       </div>
 
@@ -457,18 +481,30 @@ export default function HomeScreen() {
         whileTap={{ scale: 0.95 }}
         style={styles.fabWrapper}
       >
-        <Fab
+        <motion.button
+          animate={{
+            boxShadow: [
+              `0 0 20px ${colors.primary}`,
+              `0 0 40px ${colors.primary}`,
+              `0 0 20px ${colors.primary}`,
+            ],
+          }}
+          transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
           onClick={() => navigate('/add-goal', { state: { date: format(selectedDate, 'yyyy-MM-dd') } })}
-          sx={{
-            background: `linear-gradient(135deg, ${colors.primary}, ${colors.secondary})`,
-            boxShadow: `0 0 30px ${colors.primary}`,
-            '&:hover': {
-              boxShadow: `0 0 40px ${colors.primary}`,
-            },
+          style={{
+            width: 56,
+            height: 56,
+            borderRadius: borderRadius.lg,
+            border: 'none',
+            background: colors.primary,
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
           }}
         >
           <AddIcon sx={{ color: colors.surface, fontSize: 32 }} />
-        </Fab>
+        </motion.button>
       </motion.div>
     </div>
   );
@@ -491,9 +527,7 @@ function ProgressBar({
   color: string;
 }) {
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
+    <div
       style={{
         background: `linear-gradient(135deg, ${colors.surface}, ${colors.surfaceDark})`,
         padding: spacing.md,
@@ -519,7 +553,7 @@ function ProgressBar({
         <motion.div
           initial={{ width: '0%' }}
           animate={{ width: `${percentage}%` }}
-          transition={{ duration: 0.65, ease: 'easeOut' }}
+          transition={{ duration: 0.5, ease: 'easeOut' }}
           style={{
             height: '100%',
             background: color,
@@ -530,7 +564,7 @@ function ProgressBar({
       <p style={{ color: colors.textLight, fontSize: 12, textAlign: 'center', margin: `${spacing.xs}px 0 0 0` }}>
         {completed} de {total} objetivos completados
       </p>
-    </motion.div>
+    </div>
   );
 }
 
@@ -552,11 +586,7 @@ function GoalsList({
   onToggleSubGoal: (goalId: string, subGoalId: string) => void;
 }) {
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      style={{ padding: spacing.lg }}
-    >
+    <div style={{ padding: spacing.lg }}>
       <h2 style={styles.goalsTitle}>{title}</h2>
       {goals.map((goal) => (
         <GoalCard
@@ -569,7 +599,7 @@ function GoalsList({
           selectedDate={selectedDate}
         />
       ))}
-    </motion.div>
+    </div>
   );
 }
 

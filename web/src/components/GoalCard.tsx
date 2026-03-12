@@ -96,27 +96,22 @@ export default function GoalCard({
   return (
     <>
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.38 }}
-        whileHover={{ scale: goal.completed ? 1 : 1.01 }}
-        whileTap={{ scale: 0.97 }}
+        whileHover={{ scale: goal.completed ? 1 : 1.02 }}
+        whileTap={{ scale: 0.98 }}
         style={styles.cardWrapper}
         onClick={() => setShowDetails(true)}
       >
         <motion.div
           animate={{
             boxShadow: [
-              `0 0 20px ${goal.color}66`,
-              `0 0 30px ${goal.color}99`,
-              `0 0 20px ${goal.color}66`,
+              `0 0 15px ${goal.color}60`,
+              `0 0 30px ${goal.color}90`,
+              `0 0 15px ${goal.color}60`,
             ],
           }}
-          transition={{ duration: 4, repeat: Infinity }}
-          style={styles.glowEffect}
-        />
-
-        <div style={styles.container}>
+          transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
+          style={styles.container}
+        >
           <div style={styles.neonBar} />
 
           <div style={styles.content}>
@@ -131,7 +126,10 @@ export default function GoalCard({
                 cursor: isMainCheckboxDisabled() ? 'not-allowed' : 'pointer',
               }}
             >
-              <div style={styles.checkbox}>
+              <div style={{
+                ...styles.checkbox,
+                background: goal.completed ? goal.color : 'transparent',
+              }}>
                 {goal.completed && <span style={styles.checkmark}>✓</span>}
               </div>
             </div>
@@ -273,7 +271,7 @@ export default function GoalCard({
               />
             </div>
           )}
-        </div>
+        </motion.div>
       </motion.div>
 
       {/* Modal Details */}
@@ -372,16 +370,6 @@ const getStyles = (
     marginBottom: spacing.md,
     cursor: 'pointer',
   },
-  glowEffect: {
-    position: 'absolute',
-    top: -2,
-    left: -2,
-    right: -2,
-    bottom: -2,
-    borderRadius: borderRadius.lg + 2,
-    border: `2px solid ${goalColor}40`,
-    pointerEvents: 'none',
-  },
   container: {
     borderRadius: borderRadius.lg,
     border: `1px solid ${goalColor}`,
@@ -415,7 +403,7 @@ const getStyles = (
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    background: isDisabled ? 'transparent' : goalColor,
+    background: 'transparent',
     opacity: isDisabled ? 0.5 : 1,
   },
   checkmark: {

@@ -89,7 +89,7 @@ Te dará una URL como: `https://tu-app.vercel.app`
 2. Ve a la URL de tu app (ej: `https://tu-proyecto.web.app`)
 3. Toca el botón de compartir (cuadrado con flecha hacia arriba)
 4. Toca "Añadir a pantalla de inicio"
-5. Dale un nombre (ej: "Mis Metas")
+5. Dale un nombre (ej: "ObjetivosApp")
 6. Toca "Añadir"
 
 **¡Ya está!** La app aparecerá en tu pantalla de inicio como una app nativa.

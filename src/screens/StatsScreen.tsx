@@ -1,26 +1,15 @@
-// 📊 PANTALLA DE ESTADÍSTICAS
+// 📊 PANTALLA DE ESTADÍSTICAS DETALLADAS
 
 import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, ScrollView } from 'react-native';
 import { Text, Surface, IconButton } from 'react-native-paper';
 import { useAuth } from '../contexts/AuthContext';
 import goalService from '../services/goalService';
-import { colors, spacing, borderRadius, shadows } from '../theme/colors';
+import { colors, spacing, borderRadius } from '../theme/colors';
 
 export default function StatsScreen({ navigation }: any) {
   const { user } = useAuth();
-  const [stats, setStats] = useState({
-    totalGoals: 0,
-    completedGoals: 0,
-    completionRate: 0,
-    streakDays: 0,
-    goalsByPeriod: {
-      day: 0,
-      week: 0,
-      month: 0,
-      year: 0,
-    },
-  });
+  const [stats, setStats] = useState<any>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -40,12 +29,20 @@ export default function StatsScreen({ navigation }: any) {
     }
   };
 
+  if (loading || !stats) {
+    return (
+      <View style={styles.loadingContainer}>
+        <Text style={styles.loadingText}>Cargando estadísticas...</Text>
+      </View>
+    );
+  }
+
   const StatCard = ({ icon, title, value, color }: any) => (
-    <Surface style={styles.statCard}>
+    <Surface style={[styles.statCard, { borderColor: color + '40' }]}>
       <View style={[styles.iconContainer, { backgroundColor: color + '20' }]}>
         <Text style={styles.icon}>{icon}</Text>
       </View>
-      <Text style={styles.statValue}>{value}</Text>
+      <Text style={[styles.statValue, { textShadowColor: color }]}>{value}</Text>
       <Text style={styles.statTitle} numberOfLines={2}>{title}</Text>
     </Surface>
   );
@@ -56,7 +53,7 @@ export default function StatsScreen({ navigation }: any) {
       <View style={styles.progressItem}>
         <View style={styles.progressHeader}>
           <Text style={styles.progressLabel}>{label}</Text>
-          <Text style={styles.progressValue}>{value}</Text>
+          <Text style={styles.progressValue}>{value} de {total}</Text>
         </View>
         <View style={styles.progressBarContainer}>
           <View
@@ -66,6 +63,7 @@ export default function StatsScreen({ navigation }: any) {
             ]}
           />
         </View>
+        <Text style={styles.progressPercentage}>{Math.round(percentage)}%</Text>
       </View>
     );
   };
@@ -77,12 +75,14 @@ export default function StatsScreen({ navigation }: any) {
           <IconButton
             icon="arrow-left"
             size={24}
+            iconColor={colors.primary}
             onPress={() => navigation.goBack()}
           />
           <Text style={styles.headerTitle}>Estadísticas</Text>
           <IconButton
             icon="refresh"
             size={24}
+            iconColor={colors.primary}
             onPress={loadStats}
           />
         </View>
@@ -101,7 +101,7 @@ export default function StatsScreen({ navigation }: any) {
             icon="✅"
             title="Completados"
             value={stats.completedGoals}
-            color={colors.success}
+            color="#10b981"
           />
           <StatCard
             icon="�"
@@ -111,42 +111,127 @@ export default function StatsScreen({ navigation }: any) {
           />
           <StatCard
             icon="🔥"
-            title="Racha"
+            title="Racha Actual"
             value={`${stats.streakDays} días`}
-            color={colors.warning}
+            color={colors.accent}
           />
         </View>
 
-        {/* Objetivos por periodo */}
+        {/* Mejor racha */}
+        {stats.bestStreak > 0 && (
+          <Surface style={[styles.section, styles.streakCard]}>
+            <Text style={styles.streakIcon}>👑</Text>
+            <Text style={styles.streakTitle}>Mejor Racha</Text>
+            <Text style={styles.streakValue}>{stats.bestStreak} días consecutivos</Text>
+            <Text style={styles.streakSubtext}>¡Sigue así para superar tu récord!</Text>
+          </Surface>
+        )}
+
+        {/* Tendencias */}
         <Surface style={styles.section}>
-          <Text style={styles.sectionTitle}>Objetivos por Periodo</Text>
+          <Text style={styles.sectionTitle}>📈 Tendencias</Text>
+          
+          <View style={styles.trendItem}>
+            <Text style={styles.trendLabel}>Últimos 7 días</Text>
+            <View style={styles.trendStats}>
+              <Text style={styles.trendValue}>
+                {stats.trends.last7Days.completed}/{stats.trends.last7Days.total}
+              </Text>
+              <Text style={[styles.trendPercentage, { 
+                color: stats.trends.last7Days.completionRate >= 70 ? '#10b981' : 
+                       stats.trends.last7Days.completionRate >= 50 ? colors.accent : colors.textLight 
+              }]}>
+                {Math.round(stats.trends.last7Days.completionRate)}%
+              </Text>
+            </View>
+          </View>
+
+          <View style={styles.divider} />
+
+          <View style={styles.trendItem}>
+            <Text style={styles.trendLabel}>Últimos 30 días</Text>
+            <View style={styles.trendStats}>
+              <Text style={styles.trendValue}>
+                {stats.trends.last30Days.completed}/{stats.trends.last30Days.total}
+              </Text>
+              <Text style={[styles.trendPercentage, { 
+                color: stats.trends.last30Days.completionRate >= 70 ? '#10b981' : 
+                       stats.trends.last30Days.completionRate >= 50 ? colors.accent : colors.textLight 
+              }]}>
+                {Math.round(stats.trends.last30Days.completionRate)}%
+              </Text>
+            </View>
+          </View>
+        </Surface>
+
+        {/* Mejor día */}
+        {stats.bestDay !== 'N/A' && (
+          <Surface style={styles.section}>
+            <Text style={styles.sectionTitle}>⭐ Mejor Día de la Semana</Text>
+            <View style={styles.bestDayContainer}>
+              <Text style={styles.bestDayIcon}>📅</Text>
+              <Text style={styles.bestDayName}>{stats.bestDay}</Text>
+              <Text style={styles.bestDaySubtext}>Tu día más productivo</Text>
+            </View>
+          </Surface>
+        )}
+
+        {/* Objetivos por período */}
+        <Surface style={styles.section}>
+          <Text style={styles.sectionTitle}>📊 Objetivos por Período</Text>
 
           <ProgressBar
             label="📅 Diarios"
             value={stats.goalsByPeriod.day}
             total={stats.totalGoals}
-            color={colors.goalColors[0]}
+            color={colors.primary}
           />
 
           <ProgressBar
             label="📆 Semanales"
             value={stats.goalsByPeriod.week}
             total={stats.totalGoals}
-            color={colors.goalColors[2]}
+            color={colors.secondary}
           />
 
           <ProgressBar
             label="🗓️ Mensuales"
             value={stats.goalsByPeriod.month}
             total={stats.totalGoals}
-            color={colors.goalColors[4]}
+            color={colors.accent}
           />
 
           <ProgressBar
-            label="📊 Anuales"
+            label="📋 Anuales"
             value={stats.goalsByPeriod.year}
             total={stats.totalGoals}
-            color={colors.goalColors[6]}
+            color="#10b981"
+          />
+        </Surface>
+
+        {/* Objetivos por prioridad */}
+        <Surface style={styles.section}>
+          <Text style={styles.sectionTitle}>🎯 Objetivos por Prioridad</Text>
+
+          <ProgressBar
+            label="🔴 Alta"
+            value={stats.completedByPriority.high}
+            total={stats.goalsByPriority.high}
+            color="#ef4444"
+          />
+
+          <ProgressBar
+            label="🟡 Media"
+            value={stats.completedByPriority.medium}
+            total={stats.goalsByPriority.medium}
+            color={colors.accent}
+          />
+
+          <ProgressBar
+            label="🟢 Baja"
+            value={stats.completedByPriority.low}
+            total={stats.goalsByPriority.low}
+            color="#10b981"
           />
         </Surface>
 
@@ -178,7 +263,8 @@ export default function StatsScreen({ navigation }: any) {
             <Text style={styles.summaryLabel}>Estado</Text>
             <Text style={[
               styles.summaryValue,
-              { color: stats.completionRate >= 70 ? colors.success : colors.warning }
+              { color: stats.completionRate >= 70 ? '#10b981' : 
+                       stats.completionRate >= 50 ? colors.accent : colors.textLight }
             ]}>
               {stats.completionRate >= 70 ? '¡Excelente!' : 
                stats.completionRate >= 50 ? 'En Progreso' : 
@@ -190,7 +276,7 @@ export default function StatsScreen({ navigation }: any) {
         {/* Motivación */}
         <Surface style={[styles.section, styles.motivationCard]}>
           <Text style={styles.motivationIcon}>
-            {stats.completionRate >= 70 ? '�' : 
+            {stats.completionRate >= 70 ? '👑' : 
              stats.completionRate >= 50 ? '💎' : 
              stats.completionRate >= 30 ? '🎯' : '🌱'}
           </Text>
@@ -201,6 +287,8 @@ export default function StatsScreen({ navigation }: any) {
              '¡Comienza hoy! Cada gran logro empieza con un primer paso.'}
           </Text>
         </Surface>
+
+        <View style={{ height: 40 }} />
       </ScrollView>
     </View>
   );
@@ -210,6 +298,16 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.background,
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: colors.background,
+  },
+  loadingText: {
+    color: colors.textLight,
+    fontSize: 16,
   },
   header: {
     paddingTop: spacing.xl + 20,
@@ -277,6 +375,41 @@ const styles = StyleSheet.create({
     letterSpacing: 0.3,
     lineHeight: 14,
   },
+  streakCard: {
+    alignItems: 'center',
+    backgroundColor: colors.surface,
+    borderWidth: 2,
+    borderColor: colors.accent + '60',
+    shadowColor: colors.accent,
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0.6,
+    shadowRadius: 15,
+    elevation: 10,
+  },
+  streakIcon: {
+    fontSize: 48,
+    marginBottom: spacing.sm,
+  },
+  streakTitle: {
+    fontSize: 16,
+    color: colors.text,
+    fontWeight: 'bold',
+    letterSpacing: 0.5,
+  },
+  streakValue: {
+    fontSize: 32,
+    fontWeight: 'bold',
+    color: colors.accent,
+    marginVertical: spacing.sm,
+    textShadowColor: colors.accent,
+    textShadowOffset: { width: 0, height: 0 },
+    textShadowRadius: 12,
+  },
+  streakSubtext: {
+    fontSize: 12,
+    color: colors.textLight,
+    textAlign: 'center',
+  },
   section: {
     padding: spacing.lg,
     borderRadius: borderRadius.lg,
@@ -291,6 +424,52 @@ const styles = StyleSheet.create({
     color: colors.text,
     marginBottom: spacing.lg,
     letterSpacing: 0.5,
+  },
+  trendItem: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingVertical: spacing.md,
+  },
+  trendLabel: {
+    fontSize: 14,
+    color: colors.text,
+    letterSpacing: 0.3,
+  },
+  trendStats: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing.md,
+  },
+  trendValue: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    color: colors.text,
+  },
+  trendPercentage: {
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  bestDayContainer: {
+    alignItems: 'center',
+    paddingVertical: spacing.md,
+  },
+  bestDayIcon: {
+    fontSize: 40,
+    marginBottom: spacing.sm,
+  },
+  bestDayName: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: colors.primary,
+    marginBottom: spacing.xs,
+    textShadowColor: colors.primary,
+    textShadowOffset: { width: 0, height: 0 },
+    textShadowRadius: 10,
+  },
+  bestDaySubtext: {
+    fontSize: 12,
+    color: colors.textLight,
   },
   progressItem: {
     marginBottom: spacing.lg,
@@ -321,6 +500,12 @@ const styles = StyleSheet.create({
   },
   progressBarFill: {
     height: '100%',
+  },
+  progressPercentage: {
+    fontSize: 11,
+    color: colors.textLight,
+    marginTop: spacing.xs,
+    textAlign: 'right',
   },
   summaryItem: {
     flexDirection: 'row',

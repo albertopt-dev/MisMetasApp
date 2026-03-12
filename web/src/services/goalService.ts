@@ -255,6 +255,7 @@ class GoalService {
       const completedGoals = goals.filter(g => g.completed).length;
       const completionRate = totalGoals > 0 ? (completedGoals / totalGoals) * 100 : 0;
 
+      // Objetivos por período
       const goalsByPeriod = {
         day: goals.filter(g => g.period === 'day').length,
         week: goals.filter(g => g.period === 'week').length,
@@ -262,12 +263,140 @@ class GoalService {
         year: goals.filter(g => g.period === 'year').length,
       };
 
+      // Objetivos por prioridad
+      const goalsByPriority = {
+        high: goals.filter(g => g.priority === 'high').length,
+        medium: goals.filter(g => g.priority === 'medium').length,
+        low: goals.filter(g => g.priority === 'low').length,
+      };
+
+      // Objetivos completados por prioridad
+      const completedByPriority = {
+        high: goals.filter(g => g.priority === 'high' && g.completed).length,
+        medium: goals.filter(g => g.priority === 'medium' && g.completed).length,
+        low: goals.filter(g => g.priority === 'low' && g.completed).length,
+      };
+
+      // Cálculo de racha (días consecutivos con al menos un objetivo completado)
+      const dailyGoals = goals.filter(g => g.period === 'day' && g.completed);
+      const sortedDates = [...new Set(dailyGoals.map(g => g.date))].sort().reverse();
+      
+      let currentStreak = 0;
+      let bestStreak = 0;
+      let tempStreak = 0;
+      const today = format(new Date(), 'yyyy-MM-dd');
+      
+      if (sortedDates.length > 0) {
+        // Verificar si hay objetivos completados hoy o ayer
+        const latestDate = sortedDates[0];
+        const yesterday = format(new Date(Date.now() - 86400000), 'yyyy-MM-dd');
+        
+        if (latestDate === today || latestDate === yesterday) {
+          let currentDate = latestDate;
+          
+          for (let i = 0; i < sortedDates.length; i++) {
+            if (sortedDates[i] === currentDate) {
+              currentStreak++;
+              tempStreak++;
+              
+              // Calcular siguiente día esperado
+              const dateObj = new Date(currentDate);
+              dateObj.setDate(dateObj.getDate() - 1);
+              currentDate = format(dateObj, 'yyyy-MM-dd');
+            } else {
+              break;
+            }
+          }
+        }
+        
+        // Calcular mejor racha histórica
+        tempStreak = 0;
+        for (let i = 0; i < sortedDates.length; i++) {
+          if (i === 0) {
+            tempStreak = 1;
+          } else {
+            const currentDate = new Date(sortedDates[i]);
+            const prevDate = new Date(sortedDates[i - 1]);
+            const diffDays = Math.floor((prevDate.getTime() - currentDate.getTime()) / 86400000);
+            
+            if (diffDays === 1) {
+              tempStreak++;
+            } else {
+              if (tempStreak > bestStreak) bestStreak = tempStreak;
+              tempStreak = 1;
+            }
+          }
+        }
+        if (tempStreak > bestStreak) bestStreak = tempStreak;
+      }
+
+      // Tendencias (últimos 7 y 30 días)
+      const now = new Date();
+      const last7Days = new Date(now.getTime() - 7 * 86400000);
+      const last30Days = new Date(now.getTime() - 30 * 86400000);
+      
+      const last7DaysStr = format(last7Days, 'yyyy-MM-dd');
+      const last30DaysStr = format(last30Days, 'yyyy-MM-dd');
+      
+      const goalsLast7Days = goals.filter(g => g.date >= last7DaysStr);
+      const goalsLast30Days = goals.filter(g => g.date >= last30DaysStr);
+      
+      const completedLast7Days = goalsLast7Days.filter(g => g.completed).length;
+      const completedLast30Days = goalsLast30Days.filter(g => g.completed).length;
+      
+      const completionRateLast7Days = goalsLast7Days.length > 0 
+        ? (completedLast7Days / goalsLast7Days.length) * 100 
+        : 0;
+      const completionRateLast30Days = goalsLast30Days.length > 0 
+        ? (completedLast30Days / goalsLast30Days.length) * 100 
+        : 0;
+
+      // Mejor día de la semana
+      const dayStats: { [key: string]: { total: number; completed: number } } = {};
+      goals.forEach(g => {
+        if (g.period === 'day') {
+          const dayOfWeek = new Date(g.date + 'T00:00:00').getDay();
+          const dayName = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'][dayOfWeek];
+          
+          if (!dayStats[dayName]) {
+            dayStats[dayName] = { total: 0, completed: 0 };
+          }
+          dayStats[dayName].total++;
+          if (g.completed) dayStats[dayName].completed++;
+        }
+      });
+      
+      let bestDay = { name: '', rate: 0 };
+      Object.entries(dayStats).forEach(([day, stats]) => {
+        const rate = stats.total > 0 ? (stats.completed / stats.total) * 100 : 0;
+        if (rate > bestDay.rate) {
+          bestDay = { name: day, rate };
+        }
+      });
+
       return {
         totalGoals,
         completedGoals,
         completionRate: Math.round(completionRate),
-        streakDays: 0, // TODO: Implementar cálculo de racha
+        streakDays: currentStreak,
+        bestStreak,
         goalsByPeriod,
+        goalsByPriority,
+        completedByPriority,
+        trends: {
+          last7Days: {
+            total: goalsLast7Days.length,
+            completed: completedLast7Days,
+            completionRate: Math.round(completionRateLast7Days),
+          },
+          last30Days: {
+            total: goalsLast30Days.length,
+            completed: completedLast30Days,
+            completionRate: Math.round(completionRateLast30Days),
+          },
+        },
+        bestDay: bestDay.name || 'N/A',
+        dayStats,
       };
     } catch (error) {
       throw new Error('Error al obtener estadísticas');

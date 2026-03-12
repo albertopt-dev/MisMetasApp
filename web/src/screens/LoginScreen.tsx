@@ -97,7 +97,7 @@ export default function LoginScreen() {
               >
                 🎯
               </motion.span>
-              <h1 style={styles.title}>MISMETAS</h1>
+              <h1 style={styles.title}>OBJETIVOSAPP</h1>
               <div style={styles.titleUnderline} />
               <p style={styles.subtitle}>
                 {isLogin ? 'Bienvenido de nuevo' : 'Tus objetivos, tus logros'}

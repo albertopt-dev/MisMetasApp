@@ -135,7 +135,7 @@ export default function WelcomeScreen({ onFinish }: WelcomeScreenProps) {
           },
         ]}
       >
-        <Text style={styles.title}>MisMetas</Text>
+        <Text style={styles.title}>ObjetivosApp</Text>
         <Text style={styles.subtitle}>Convierte tus objetivos en logros</Text>
       </Animated.View>
     </LinearGradient>

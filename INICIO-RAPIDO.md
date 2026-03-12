@@ -1,4 +1,4 @@
-# 🚀 GUÍA RÁPIDA DE USO - MisMetas
+# 🚀 GUÍA RÁPIDA DE USO - ObjetivosApp
 
 ## ⚡ Inicio en 30 segundos
 

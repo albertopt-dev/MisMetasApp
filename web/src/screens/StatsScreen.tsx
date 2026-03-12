@@ -12,18 +12,7 @@ import { ArrowBack, Refresh } from '@mui/icons-material';
 export default function StatsScreen() {
   const { user } = useAuth();
   const navigate = useNavigate();
-  const [stats, setStats] = useState({
-    totalGoals: 0,
-    completedGoals: 0,
-    completionRate: 0,
-    streakDays: 0,
-    goalsByPeriod: {
-      day: 0,
-      week: 0,
-      month: 0,
-      year: 0,
-    },
-  });
+  const [stats, setStats] = useState<any>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -44,7 +33,7 @@ export default function StatsScreen() {
     }
   };
 
-  if (loading) {
+  if (loading || !stats) {
     return (
       <div style={styles.loadingContainer}>
         <CircularProgress sx={{ color: colors.primary }} size={48} />
@@ -70,19 +59,95 @@ export default function StatsScreen() {
         {/* Estadísticas principales */}
         <div style={styles.statsGrid}>
           <StatCard icon="🎯" title="Total Objetivos" value={stats.totalGoals} color={colors.primary} delay={0} />
-          <StatCard icon="✅" title="Completados" value={stats.completedGoals} color={colors.success} delay={0.05} />
+          <StatCard icon="✅" title="Completados" value={stats.completedGoals} color="#10b981" delay={0.05} />
           <StatCard icon="📊" title="Tasa Éxito" value={`${stats.completionRate}%`} color={colors.secondary} delay={0.1} />
-          <StatCard icon="🔥" title="Racha" value={`${stats.streakDays} días`} color={colors.warning} delay={0.15} />
+          <StatCard icon="🔥" title="Racha Actual" value={`${stats.streakDays} días`} color={colors.accent} delay={0.15} />
         </div>
 
-        {/* Objetivos por periodo */}
+        {/* Mejor racha */}
+        {stats.bestStreak > 0 && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            style={styles.streakCard}
+          >
+            <div style={styles.streakIcon}>👑</div>
+            <div style={styles.streakTitle}>Mejor Racha</div>
+            <div style={styles.streakValue}>{stats.bestStreak} días consecutivos</div>
+            <div style={styles.streakSubtext}>¡Sigue así para superar tu récord!</div>
+          </motion.div>
+        )}
+
+        {/* Tendencias */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
+          transition={{ delay: 0.25 }}
           style={styles.section}
         >
-          <h2 style={styles.sectionTitle}>Objetivos por Periodo</h2>
+          <h2 style={styles.sectionTitle}>📈 Tendencias</h2>
+          
+          <div style={styles.trendItem}>
+            <span style={styles.trendLabel}>Últimos 7 días</span>
+            <div style={styles.trendStats}>
+              <span style={styles.trendValue}>
+                {stats.trends.last7Days.completed}/{stats.trends.last7Days.total}
+              </span>
+              <span style={{ 
+                ...styles.trendPercentage,
+                color: stats.trends.last7Days.completionRate >= 70 ? '#10b981' : 
+                       stats.trends.last7Days.completionRate >= 50 ? colors.accent : colors.textLight 
+              }}>
+                {Math.round(stats.trends.last7Days.completionRate)}%
+              </span>
+            </div>
+          </div>
+
+          <div style={styles.divider} />
+
+          <div style={styles.trendItem}>
+            <span style={styles.trendLabel}>Últimos 30 días</span>
+            <div style={styles.trendStats}>
+              <span style={styles.trendValue}>
+                {stats.trends.last30Days.completed}/{stats.trends.last30Days.total}
+              </span>
+              <span style={{ 
+                ...styles.trendPercentage,
+                color: stats.trends.last30Days.completionRate >= 70 ? '#10b981' : 
+                       stats.trends.last30Days.completionRate >= 50 ? colors.accent : colors.textLight 
+              }}>
+                {Math.round(stats.trends.last30Days.completionRate)}%
+              </span>
+            </div>
+          </div>
+        </motion.div>
+
+        {/* Mejor día */}
+        {stats.bestDay !== 'N/A' && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+            style={styles.section}
+          >
+            <h2 style={styles.sectionTitle}>⭐ Mejor Día de la Semana</h2>
+            <div style={styles.bestDayContainer}>
+              <div style={styles.bestDayIcon}>📅</div>
+              <div style={styles.bestDayName}>{stats.bestDay}</div>
+              <div style={styles.bestDaySubtext}>Tu día más productivo</div>
+            </div>
+          </motion.div>
+        )}
+
+        {/* Objetivos por período */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.35 }}
+          style={styles.section}
+        >
+          <h2 style={styles.sectionTitle}>📊 Objetivos por Período</h2>
 
           <ProgressBar label="📅 Diarios" value={stats.goalsByPeriod.day} total={stats.totalGoals} color={colors.goalColors[0]} />
           <ProgressBar label="📆 Semanales" value={stats.goalsByPeriod.week} total={stats.totalGoals} color={colors.goalColors[2]} />
@@ -90,11 +155,25 @@ export default function StatsScreen() {
           <ProgressBar label="📊 Anuales" value={stats.goalsByPeriod.year} total ={stats.totalGoals} color={colors.goalColors[6]} />
         </motion.div>
 
+        {/* Objetivos por prioridad */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.4 }}
+          style={styles.section}
+        >
+          <h2 style={styles.sectionTitle}>🎯 Objetivos por Prioridad</h2>
+
+          <ProgressBar label="🔴 Alta" value={stats.completedByPriority.high} total={stats.goalsByPriority.high} color="#ef4444" />
+          <ProgressBar label="🟡 Media" value={stats.completedByPriority.medium} total={stats.goalsByPriority.medium} color={colors.accent} />
+          <ProgressBar label="🟢 Baja" value={stats.completedByPriority.low} total={stats.goalsByPriority.low} color="#10b981" />
+        </motion.div>
+
         {/* Resumen */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.25 }}
+          transition={{ delay: 0.45 }}
           style={styles.section}
         >
           <h2 style={styles.sectionTitle}>Resumen</h2>
@@ -122,9 +201,9 @@ export default function StatsScreen() {
                 ...styles.summaryValue,
                 color:
                   stats.completionRate >= 70
-                    ? colors.success
+                    ? '#10b981'
                     : stats.completionRate >= 50
-                    ? colors.warning
+                    ? colors.accent
                     : colors.textLight,
               }}
             >
@@ -143,7 +222,7 @@ export default function StatsScreen() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3 }}
+          transition={{ delay: 0.5 }}
           style={styles.motivationCard}
         >
           <div style={styles.motivationIcon}>
@@ -159,7 +238,7 @@ export default function StatsScreen() {
               : '¡Comienza hoy! Cada gran logro empieza con un primer paso.'}
           </p>
         </motion.div>
-      </div>
+        <div style={{ height: 40 }} />      </div>
     </div>
   );
 }
@@ -194,7 +273,7 @@ function ProgressBar({ label, value, total, color }: { label: string; value: num
     <div style={styles.progressItem}>
       <div style={styles.progressHeader}>
         <span style={styles.progressLabel}>{label}</span>
-        <span style={styles.progressValue}>{value}</span>
+        <span style={styles.progressValue}>{value} de {total}</span>
       </div>
       <div style={styles.progressBarContainer}>
         <motion.div
@@ -287,6 +366,83 @@ const styles: Record<string, React.CSSProperties> = {
     textAlign: 'center' as any,
     letterSpacing: '0.3px',
     lineHeight: '14px',
+  },
+  streakCard: {
+    background: `linear-gradient(135deg, ${colors.surface}, ${colors.surfaceDark})`,
+    padding: spacing.xl,
+    borderRadius: borderRadius.lg,
+    textAlign: 'center' as any,
+    border: `2px solid ${colors.accent}60`,
+    boxShadow: `0 0 30px ${colors.accent}40`,
+    marginBottom: spacing.lg,
+  },
+  streakIcon: {
+    fontSize: 48,
+    marginBottom: spacing.sm,
+  },
+  streakTitle: {
+    fontSize: 16,
+    color: colors.text,
+    fontWeight: 'bold',
+    letterSpacing: '0.5px',
+    marginBottom: spacing.sm,
+  },
+  streakValue: {
+    fontSize: 32,
+    fontWeight: 'bold',
+    color: colors.accent,
+    margin: `${spacing.md}px 0`,
+    textShadow: `0 0 20px ${colors.accent}80`,
+  },
+  streakSubtext: {
+    fontSize: 12,
+    color: colors.textLight,
+  },
+  trendItem: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingTop: spacing.md,
+    paddingBottom: spacing.md,
+  },
+  trendLabel: {
+    fontSize: 14,
+    color: colors.text,
+    letterSpacing: '0.3px',
+  },
+  trendStats: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: spacing.md,
+  },
+  trendValue: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    color: colors.text,
+  },
+  trendPercentage: {
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  bestDayContainer: {
+    textAlign: 'center' as any,
+    paddingTop: spacing.md,
+    paddingBottom: spacing.md,
+  },
+  bestDayIcon: {
+    fontSize: 40,
+    marginBottom: spacing.sm,
+  },
+  bestDayName: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: colors.primary,
+    marginBottom: spacing.xs,
+    textShadow: `0 0 20px ${colors.primary}60`,
+  },
+  bestDaySubtext: {
+    fontSize: 12,
+    color: colors.textLight,
   },
   section: {
     padding: spacing.lg,

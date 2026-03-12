@@ -1,4 +1,4 @@
-# 🎯 MisMetas - Aplicación de Gestión de Objetivos
+# 🎯 ObjetivosApp - Aplicación de Gestión de Objetivos
 
 Una aplicación **multiplataforma** moderna con diseño futurista oscuro y neón para gestionar tus objetivos diarios, semanales, mensuales y anuales. Totalmente en español con sistema de sub-objetivos para un seguimiento detallado de tus metas.
 
@@ -7,6 +7,31 @@ Una aplicación **multiplataforma** moderna con diseño futurista oscuro y neón
 - **📱 App Nativa**: React Native (iOS/Android) - Listo para App Store y Play Store
 - **🌐 PWA**: Aplicación web progresiva instalable - Funcional en cualquier navegador
 - **☁️ Base de datos compartida**: Mismo Firebase Firestore para todas las plataformas
+
+---
+
+## 🔔 Estado de Notificaciones Push
+
+### ✅ Sistema completo implementado
+- **Infraestructura** lista en ambas plataformas (nativo + web)
+- **Pantalla de configuración** funcional (activa/desactiva + elige hora)
+- **Gestión automática** de permisos y tokens
+- **Notificaciones de prueba** funcionando - Pruébalo desde la app
+- **Backend listo**: Código de Cloud Functions implementado en `functions/`
+
+### 🚀 Backend para notificaciones automáticas
+**✅ IMPLEMENTADO** - Solo falta desplegarlo (15 minutos):
+
+📖 **[➡️ Ver functions/INSTALACION.md](functions/INSTALACION.md)** - Pasos exactos para desplegar
+
+**Características del backend**:
+- ⭐ **Firebase Cloud Functions** (serverless)
+- 🌍 Funciona en **AMBAS plataformas** (nativo + web) automáticamente
+- 💻 **NO necesitas PC encendido** - Se ejecuta en servidores de Google 24/7
+- ⏰ Se ejecuta cada hora automáticamente
+- 💰 Costo: ~$0.01/mes (prácticamente gratis)
+
+---
 
 ## ✨ Características Principales
 
@@ -49,12 +74,27 @@ Una aplicación **multiplataforma** moderna con diseño futurista oscuro y neón
 - **"Mantener sesión iniciada"**: Checkbox opcional que cierra sesión automáticamente cuando la app va a segundo plano si está desmarcado
 - Persistencia de preferencias de sesión
 
+### 🔔 Notificaciones Push
+- **Recordatorios diarios programables**: Recibe notificaciones para revisar tus objetivos
+- **Configuración por usuario**: Activa/desactiva y elige la hora del recordatorio
+- **Multi-plataforma**: Funciona tanto en app nativa (Expo) como en PWA (FCM)
+- **Notificaciones locales y remotas**: Soporte completo para ambos tipos
+- **Permisos inteligentes**: Gestión automática de permisos del sistema/navegador
+- **Tokens en la nube**: Sincronización segura de tokens en Firestore
+- **Configuración desde la app**: Pantalla dedicada de ajustes accesible desde el menú
+
 ### ☁️ Sincronización en la Nube
 - Backend completo con **Firebase Firestore**
+
+## 🛠️ Tecnologías Utilizadas
+
 ### 📱 App Nativa (React Native)
 - **React Native** + **Expo SDK 54.0.33**
 - **TypeScript 5.3.0** - Tipado estático completo
 - **Firebase 10.14.1** (Authentication + Firestore)
+- **Expo Notifications** - Push notifications nativas
+- **Expo Device** - Detección de dispositivo
+- **Expo Constants** - Configuración de proyecto
 - **React Navigation** - Navegación entre pantallas
 - **React Native Paper** - Componentes Material Design
 - **React Native Calendars 1.1306.0** - Calendario con localización española
@@ -63,20 +103,16 @@ Una aplicación **multiplataforma** moderna con diseño futurista oscuro y neón
 - **AsyncStorage 2.2.0** - Almacenamiento local
 
 ### 🌐 PWA (Aplicación Web)
-- **Vite 5.0** + **React 18.2** - Build rápido y modern
+- **Vite 5.0** + **React 18.2** - Build rápido y moderno
 - **TypeScript 5.3.0** - Tipado estático completo
 - **Material-UI 5.15** - Componentes web modernos
 - **Framer Motion 11.0** - Animaciones fluidas en web
 - **React Calendar 5.0** - Calendario web interactivo
 - **Firebase 10.14.1** - Mismo backend que la app nativa
+- **Firebase Cloud Messaging** - Push notifications web
+- **Service Worker** - Notificaciones en segundo plano
 - **React Router 6.22** - Navegación web
-- **Vite PWA Plugin** - Service Worker y manifest automáticoore)
-- **React Navigation** - Navegación entre pantallas
-- **React Native Paper** - Componentes Material Design
-- **React Native Calendars 1.1306.0** - Calendario con localización española
-- **date-fns 3.6.0** - Manipulación de fechas en español
-- **Expo Linear Gradient** - Efectos visuales
-- **AsyncStorage 2.2.0** - Almacenamiento local
+- **Vite PWA Plugin** - Service Worker y manifest automático
 
 
 ## 📱 Cómo usar la App
@@ -130,71 +166,54 @@ Para objetivos semanales o mensuales:
 - Las tarjetas completadas tienen efectos visuales especiales
 - Los sub-objetivos completados aparecen tachados
 
-## 🎨 Personalización de Colores
+### 7️⃣ Configurar Notificaciones
+1. Toca el menú (⋮) en la esquina superior derecha
+2. Selecciona **"Notificaciones"**
+3. **Activa el switch** "Recordatorios diarios"
+4. Otorga los permisos cuando te lo solicite el sistema/navegador
+5. **Elige la hora** del recordatorio usando los selectores
+6. Toca **"Guardar hora"**
+7. Opcional: Presiona **"Enviar notificación de prueba"** para verificar
 
-Colores disponibles para objetivos:
-│
-├── 📱 REACT NATIVE (App Nativa iOS/Android)
-│   ├── assets/               # Iconos e imágenes nativas
-│   ├── src/
-│   │   ├── components/       # Componentes React Native
-│   │   │   └── GoalCard.tsx
-│   │   ├── config/
-│   │   │   └── firebaseConfig.ts
-│   │   ├── contexts/
-│   │   │   └── AuthContext.tsx
-│   │   ├── screens/
-│   │   │   ├── HomeScreen.tsx
-│   │   │   ├── AddGoalScreen.tsx
-│   │   │   ├── EditGoalScreen.tsx
-│   │   │   ├── LoginScreen.tsx
-│   │   │   ├── WelcomeScreen.tsx
-│   │   │   └── StatsScreen.tsx
-│   │   ├── services/
-│   │   │   ├── goalService.ts
-│   │   │   └── authService.ts
-│   │   ├── theme/
-│   │   │   └── colors.ts
-│   │   └── types/
-│   │       └── index.ts
-│   ├── App.tsx
-│   ├── app.json              # Configuración Expo
-│   ├── eas.json              # Build para App/Play Store
-│   ├── metro.config.js       # ⚠️ CRÍTICO - No eliminar
-│   └── package.json          # Dependencias nativas
-│
-├── 🌐 PWA (Aplicación Web)
-│   └── web/
-│       ├── public/
-│       │   ├── manifest.json      # PWA manifest
-│       │   ├── icon-192.svg       # Icono PWA pequeño
-│       │   └── icon-512.svg       # Icono PWA grande
-│       ├── src/
-│       │   ├── components/
-│       │   │   └── GoalCard.tsx   # Versión web
-│       │   ├── contexts/
-│       │   │   └── AuthContext.tsx
-│  🎯 Diferencias entre versiones
+**Importante**:
+- **Nativo**: Las notificaciones push remotas requieren un Development Build (no funcionan en Expo Go)
+- **Web**: Debes estar en HTTPS y tu navegador debe soportar notificaciones
+- Los permisos pueden revocarse desde la configuración del sistema/navegador
 
-| Característica | App Nativa | PWA |
-|----------------|------------|-----|
-| **Plataforma** | iOS/Android | Cualquier navegador |
-| **Instalación** | App Store/Play Store | Directo desde navegador |
-| **Tamaño** | ~40-60 MB | ~2-3 MB |
-| **Rendimiento** | Nativo (100%) | Web (95%) |
-| **Animaciones** | React Native Animated | Framer Motion |
-| **Componentes UI** | React Native Paper | Material-UI |
-| **Calendario** | react-native-calendars | react-calendar |
-| **Offline** | AsyncStorage | Service Worker |
-| **Notificaciones** | Nativas | Web Push API |
-| **Base de datos** |  Firebase (compartido) |  Firebase (compartido) |
+**⚠️ Estado actual**: Las notificaciones de prueba funcionan perfectamente. El backend está implementado en `functions/`.
 
-## 🔄 Futuras Mejoras
+**Para activar notificaciones automáticas**:
+1. 🚀 **Desplegar el backend** (15 minutos) - Ver [functions/INSTALACION.md](functions/INSTALACION.md)
+2. ✅ El backend se ejecutará automáticamente cada hora (serverless, NO necesitas PC encendido)
+3. 📱 Enviará notificaciones a **AMBAS plataformas** (nativo + web)
+4. 💰 Costo: ~$0.01/mes (prácticamente gratis)
 
-- [x] **PWA instalable** 
-- [ ] Estadísticas detalladas de progreso (en desarrollo - StatsScreen)
+
+## 🔄 Mejoras y Roadmap
+
+### ✅ Completado
+- [x] **PWA instalable** - Funciona en Chrome, Edge, Safari
+- [x] **Estadísticas detalladas de progreso** - Pantalla Stats con gráficos
+- [x] **Sistema de notificaciones push completo**:
+  - [x] Infraestructura nativa (Expo Notifications)
+  - [x] Infraestructura web (FCM + Service Worker)
+  - [x] UI de configuración (pantalla de ajustes)
+  - [x] Gestión de permisos y tokens
+  - [x] Notificaciones de prueba (locales)
+  - [x] Documentación completa (NOTIFICACIONES.md)
+  - [x] **Backend implementado** (functions/sendDailyReminders.ts) ✨ NUEVO
+  - [x] Funciona para AMBAS plataformas automáticamente
+  - [x] Serverless (Cloud Functions)
+
+### 🚀 Listo para desplegar (solo falta ejecutar)
+- [ ] **Desplegar backend a Firebase** (15 minutos):
+  - ✅ Código completo en `functions/`
+  - ✅ Instrucciones paso a paso en `functions/INSTALACION.md`
+  - ✅ Firebase ya configurado (.firebaserc, firebase.json)
+  - 📋 Solo falta: `firebase deploy --only functions`
 - [ ] Implementar cálculo de racha (streak) en getUserStats
-- [ ] Notificaciones push para recordatorios
+
+### 📅 Planificado
 - [ ] Compartir objetivos con otros usuarios
 - [ ] Temas personalizables (claro/oscuro)
 - [ ] Exportar objetivos a PDF
@@ -204,12 +223,51 @@ Colores disponibles para objetivos:
 ## 🐛 Problemas Conocidos
 
 ### PWA
-- Iconos usando SVG temporalmente (funciona pero PNG es mejor para iOS)
 - Streak calculation en StatsScreen retorna 0 (pendiente implementación)
 - Service Worker puede requerir recarga manual en algunos navegadores
 
 ### App Nativa
 - Build iOS bloqueado hasta aceptar términos en Apple Developer account
+
+## 📚 Documentación Adicional
+
+### 🚀 Deploy del Backend (¡EMPIEZA AQUÍ!)
+- **[functions/INSTALACION.md](functions/INSTALACION.md)** - ⭐ **Pasos exactos para desplegar** (15 min)
+  - ✅ Todo el código ya está listo en `functions/`
+  - 📋 Checklist paso a paso
+  - 🔧 Comandos exactos a ejecutar
+  - 🐛 Troubleshooting
+  - 🎯 Configuración de zona horaria
+
+### 📖 Guías Generales
+- **[SIGUIENTES_PASOS.md](SIGUIENTES_PASOS.md)** - Visión general del sistema de notificaciones
+  - Estado actual del sistema
+  - Por qué se necesita el backend
+  - Comparativa de opciones
+  - FAQ
+
+### 🔔 Notificaciones Push - Documentación Técnica
+- **[NOTIFICACIONES.md](NOTIFICACIONES.md)** - Guía completa del sistema de notificaciones
+  - 🛠️ Configuración nativa (Expo + permisos iOS/Android)
+  - 🌐 Configuración web (FCM + VAPID + Service Worker)
+  - 🧪 Testing y troubleshooting
+  - 📊 Envío de notificaciones remotas (Expo API + FCM Admin)
+  - 🔐 Seguridad y variables de entorno
+
+### 💻 Código del Backend
+- **[functions/src/sendDailyReminders.ts](functions/src/sendDailyReminders.ts)** - Cloud Function principal
+  - ✅ Listo para desplegar
+  - 📱 Envía a app nativa (Expo Push API)
+  - 🌐 Envía a PWA (Firebase Cloud Messaging)
+  - 200+ líneas con comentarios detallados
+  - Lógica de filtrado por hora y timezone
+
+- **[backend-example/README.md](backend-example/README.md)** - Documentación alternativa
+  - Explicación detallada del funcionamiento
+  - Opciones de deployment alternativas
+  - Ejemplos de código adicionales
+  - Envío a Expo Push API y FCM
+  - Logging y manejo de errores
 
 ## 📝 Licencia
 
@@ -217,7 +275,7 @@ MIT License - Código abierto y libre para uso personal o comercial.
 
 ## 👨‍💻 Desarrollador
 
-**Alberto** - [GitHub: albertopt-dev](https://github.com/albertopt-dev/MisMetasApp)
+**Alberto** - [GitHub: albertopt-dev](https://github.com/albertopt-dev/ObjetivosApp)
 
 Creado con ❤️ usando:
 - 📱 React Native + Expo (App Nativa)
